@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineAI - AI-Powered Movie Experience</title>
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #FFD700;
+            --accent: #FFEE00;
+            --text: #FFFFFF;
+            --text-secondary: #CCCCCC;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--primary);
+            color: var(--text);
+        }
+
+        header {
+            background: linear-gradient(to right, var(--primary), #222222);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo h1 {
+            color: var(--secondary);
+            font-size: 2rem;
+            margin-left: 10px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .logo-icon {
+            color: var(--secondary);
+            font-size: 2.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+
+        nav ul li a:hover {
+            color: var(--secondary);
+            background-color: rgba(255, 215, 0, 0.1);
+        }
+
+        .hero {
+            height: 70vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://source.unsplash.com/random/1600x900/?movie,theater') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 50px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+            padding-right: 50px;
+        }
+
+        .search-button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--secondary);
+            color: var(--primary);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+        }
+
+        .ai-features {
+            padding: 4rem 2rem;
+            background-color: #111111;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--secondary);
+            font-size: 2.5rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            border-top: 3px solid var(--secondary);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .movie-section {
+            padding: 4rem 2rem;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .movie-card {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .movie-info {
+            padding: 1rem;
+        }
+
+        .movie-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .ai-recommendation {
+            background-color: rgba(255, 215, 0, 0.1);
+            padding: 0.3rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            color: var(--secondary);
+        }
+
+        .ai-chat {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background-color: var(--secondary);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+            transition: all 0.3s;
+        }
+
+        .ai-chat:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-container {
+            position: fixed;
+            bottom: 8rem;
+            right: 2rem;
+            width: 350px;
+            height: 500px;
+            background-color: #1a1a1a;
+            border-radius: 15px;
+            border: 2px solid var(--secondary);
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            z-index: 100;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .chat-header {
+            background-color: var(--secondary);
+            color: var(--primary);
+            padding: 1rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-chat {
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .bot-message {
+            background-color: #333333;
+            align-self: flex-start;
+            border-bottom-left-radius: 0;
+        }
+
+        .user-message {
+            background-color: var(--secondary);
+            color: var(--primary);
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 0;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            background-color: #222222;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.8rem;
+            border-radius: 20px;
+            border: none;
+            background-color: #333333;
+            color: var(--text);
+        }
+
+        .chat-input button {
+            background-color: var(--secondary);
+            color: var(--primary);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+
+        footer {
+            background-color: #111111;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--secondary);
+        }
+
+        .footer-logo {
+            color: var(--secondary);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            margin: 0 1rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .social-icons {
+            margin-bottom: 1.5rem;
+        }
+
+        .social-icons a {
+            color: var(--text-secondary);
+            margin: 0 0.5rem;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--secondary);
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+
+            nav ul {
+                margin-top: 1rem;
+            }
+
+            nav ul li {
+                margin-left: 1rem;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .chat-container {
+                width: 90%;
+                right: 5%;
+                height: 400px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon"><i class="fas fa-film"></i></div>
+            <h1>CineAI</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Movies</a></li>
+                <li><a href="#">TV Shows</a></li>
+                <li><a href="#">AI Features</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h2>Discover Your Next Favorite Movie</h2>
+        <p>Powered by AI to deliver personalized recommendations based on your taste and mood.</p>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search for movies, actors, or describe what you're in the mood for...">
+            <button class="search-button"><i class="fas fa-search"></i></button>
+        </div>
+    </section>
+
+    <section class="ai-features">
+        <h2 class="section-title">AI-Powered Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-robot"></i></div>
+                <h3>Smart Recommendations</h3>
+                <p>Our AI analyzes your viewing history and preferences to suggest movies you'll love.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-comment-alt"></i></div>
+                <h3>AI Movie Assistant</h3>
+                <p>Chat with our AI to get personalized suggestions based on your current mood.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-magic"></i></div>
+                <h3>Mood Detection</h3>
+                <p>Tell us how you feel and we'll recommend the perfect movie to match your mood.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-video"></i></div>
+                <h3>Scene Search</h3>
+                <p>Describe a scene and our AI will find movies with similar moments.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="movie-section">
+        <h2 class="section-title">AI Recommendations For You</h2>
+        <div class="movie-grid">
+            <div class="movie-card">
+                <img src="https://source.unsplash.com/random/300x450/?movie,action" alt="Movie Poster" class="movie-poster">
+                <div class="movie-info">
+                    <h3 class="movie-title">The Dark Horizon</h3>
+                    <div class="movie-meta">
+                        <span>2023 • Action</span>
+                        <span class="ai-recommendation">AI Pick</span>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-card">
+                <img src="https://source.unsplash.com/random/300x450/?movie,sci-fi" alt="Movie Poster" class="movie-poster">
+                <div class="movie-info">
+                    <h3 class="movie-title">Cosmic Odyssey</h3>
+                    <div class="movie-meta">
+                        <span>2022 • Sci-Fi</span>
+                        <span class="ai-recommendation">AI Pick</span>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-card">
+                <img src="https://source.unsplash.com/random/300x450/?movie,drama" alt="Movie Poster" class="movie-poster">
+                <div class="movie-info">
+                    <h3 class="movie-title">The Last Letter</h3>
+                    <div class="movie-meta">
+                        <span>2021 • Drama</span>
+                        <span class="ai-recommendation">AI Pick</span>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-card">
+                <img src="https://source.unsplash.com/random/300x450/?movie,comedy" alt="Movie Poster" class="movie-poster">
+                <div class="movie-info">
+                    <h3 class="movie-title">Laugh Riot</h3>
+                    <div class="movie-meta">
+                        <span>2023 • Comedy</span>
+                        <span class="ai-recommendation">AI Pick</span>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-card">
+                <img src="https://source.unsplash.com/random/300x450/?movie,thriller" alt="Movie Poster" class="movie-poster">
+                <div class="movie-info">
+                    <h3 class="movie-title">Midnight Shadows</h3>
+                    <div class="movie-meta">
+                        <span>2022 • Thriller</span>
+                        <span class="ai-recommendation">AI Pick</span>
+                    </div>
+                </div>
+            </div>
+            <div class="movie-card">
+                <img src="https://source.unsplash.com/random/300x450/?movie,romance" alt="Movie Poster" class="movie-poster">
+                <div class="movie-info">
+                    <h3 class="movie-title">Eternal Sunshine</h3>
+                    <div class="movie-meta">
+                        <span>2023 • Romance</span>
+                        <span class="ai-recommendation">AI Pick</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="ai-chat" id="chatButton">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <span>AI Movie Assistant</span>
+            <span class="close-chat" id="closeChat"><i class="fas fa-times"></i></span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                Hi there! I'm your AI Movie Assistant. How can I help you find the perfect movie today?
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="userInput" placeholder="Type your message...">
+            <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-logo">
+            <i class="fas fa-film"></i> CineAI
+        </div>
+        <div class="footer-links">
+            <a href="#">Home</a>
+            <a href="#">Movies</a>
+            <a href="#">TV Shows</a>
+            <a href="#">AI Features</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </div>
+        <div class="copyright">
+            &copy; 2023 CineAI. All rights reserved. Powered by Artificial Intelligence.
+        </div>
+    </footer>
+
+    <script>
+        // Chat functionality
+        const chatButton = document.getElementById('chatButton');
+        const chatContainer = document.getElementById('chatContainer');
+        const closeChat = document.getElementById('closeChat');
+        const chatMessages = document.getElementById('chatMessages');
+        const userInput = document.getElementById('userInput');
+        const sendMessage = document.getElementById('sendMessage');
+
+        chatButton.addEventListener('click', () => {
+            chatContainer.style.display = 'flex';
+        });
+
+        closeChat.addEventListener('click', () => {
+            chatContainer.style.display = 'none';
+        });
+
+        sendMessage.addEventListener('click', sendUserMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendUserMessage();
+            }
+        });
+
+        function sendUserMessage() {
+            const message = userInput.value.trim();
+            if (message) {
+                // Add user message
+                const userMessage = document.createElement('div');
+                userMessage.className = 'message user-message';
+                userMessage.textContent = message;
+                chatMessages.appendChild(userMessage);
+                
+                // Clear input
+                userInput.value = '';
+                
+                // Scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Simulate AI response after a short delay
+                setTimeout(() => {
+                    const botResponse = getAIResponse(message);
+                    const botMessage = document.createElement('div');
+                    botMessage.className = 'message bot-message';
+                    botMessage.textContent = botResponse;
+                    chatMessages.appendChild(botMessage);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 1000);
+            }
+        }
+
+        function getAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('recommend') || lowerMessage.includes('suggest')) {
+                if (lowerMessage.includes('action')) {
+                    return "Based on your interest in action movies, I recommend 'The Dark Horizon' or 'Midnight Shadows'. Both have great fight scenes and thrilling plots!";
+                } else if (lowerMessage.includes('comedy')) {
+                    return "For comedy, you might enjoy 'Laugh Riot' or 'The Big Joke'. Both are hilarious and have great reviews!";
+                } else if (lowerMessage.includes('romance')) {
+                    return "If you're in the mood for romance, 'Eternal Sunshine' is beautiful. 'The Last Letter' is also a great dramatic romance.";
+                } else {
+                    return "I'd be happy to recommend something! Could you tell me what kind of movies you usually enjoy? Action, comedy, romance, or something else?";
+                }
+            } else if (lowerMessage.includes('hello') || lowerMessage.includes('hi')) {
+                return "Hello! How can I help you find the perfect movie today?";
+            } else if (lowerMessage.includes('bye') || lowerMessage.includes('goodbye')) {
+                return "Goodbye! Hope you find a great movie to watch. Come back if you need more recommendations!";
+            } else if (lowerMessage.includes('thank')) {
+                return "You're welcome! Happy to help with your movie selection.";
+            } else if (lowerMessage.includes('mood') || lowerMessage.includes('feel')) {
+                return "I can suggest movies based on your mood! Are you feeling happy, sad, excited, or maybe nostalgic?";
+            } else {
+                return "I'm an AI movie assistant. I can recommend movies based on your mood, preferences, or even describe scenes you'd like to see. How can I help?";
+            }
+        }
+
+        // Simulate movie search
+        const searchInput = document.querySelector('.search-input');
+        const searchButton = document.querySelector('.search-button');
+        
+        searchButton.addEventListener('click', () => {
+            if (searchInput.value.trim()) {
+                alert(`Searching for: ${searchInput.value}\n(Note: This is a demo. In a real app, this would search our movie database.)`);
+            }
+        });
+        
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && searchInput.value.trim()) {
+                alert(`Searching for: ${searchInput.value}\n(Note: This is a demo. In a real app, this would search our movie database.)`);
+            }
+        });
+    </script>
+</body>
+</html>
+  
