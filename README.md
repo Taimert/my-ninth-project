@@ -54,7 +54,7 @@ project-9/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/Taimert/project.git
+   git clone https://github.com/Taimert/my-ninth-project.git
    cd project-9
 Install backend dependencies
 
